@@ -1,4 +1,5 @@
 const LocalStrategy = require("passport-local").Strategy;
+const StravaStrategy = require("passport-strava").Strategy;
 const mongoose = require("mongoose");
 const User = require("../models/User");
 
@@ -30,6 +31,20 @@ module.exports = function (passport) {
       });
     })
   );
+  passport.use(new StravaStrategy({
+    clientID: process.env.STRAVA_CLIENT_ID,
+    clientSecret: process.env.STRAVA_CLIENT_SECRET,
+    callbackURL: "http://192.168.0.11:3003/connect/strava/callback"
+  },
+    function (accessToken, refreshToken, profile, cb) {
+      console.log("accessToken", accessToken)
+      console.log("refreshToken", refreshToken)
+      console.log("profile", profile)
+      User.findOrCreate({ stravaId: profile.id }, function (err, user) {
+        return cb(err, user);
+      });
+    }
+  ));
 
   passport.serializeUser((user, done) => {
     done(null, user.id);
