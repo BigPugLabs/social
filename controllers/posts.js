@@ -21,17 +21,14 @@ module.exports = {
   },
   getPost: async (req, res) => {
     try {
-      //const post = await Post.findById(req.params.id);
       const post = await Post.findById(req.params.id).lean();
-      //res.render("post.ejs", { post: post, user: req.user });
       const comments = await Comment.find({ post: req.params.id }).populate("user", "userName").sort({ createdAt: "ascending" }).lean()
-      res.render("post.ejs", { post: post, user: req.user, comments:comments });
+      res.render("post.ejs", { post: post, user: req.user, comments: comments });
     } catch (err) {
       console.log(err);
     }
   },
   createPost: async (req, res) => {
-    console.log(req.body)
     try {
       // Upload image to cloudinary
       const result = await cloudinary.uploader.upload(req.file.path);

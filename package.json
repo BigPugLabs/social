@@ -26,7 +26,7 @@
     "nodemon": "^2.0.7",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
-    "passport-strava": "^0.2.0",
+    "passport-strava": "github:BigPugLabs/passport-strava",
     "validator": "^13.6.0"
   }
 }

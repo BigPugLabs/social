@@ -34,15 +34,21 @@ module.exports = function (passport) {
   passport.use(new StravaStrategy({
     clientID: process.env.STRAVA_CLIENT_ID,
     clientSecret: process.env.STRAVA_CLIENT_SECRET,
-    callbackURL: "http://192.168.0.11:3003/connect/strava/callback"
+    callbackURL: "http://192.168.0.11:3003/connect/strava/callback",
+    passReqToCallback: true
   },
-    function (accessToken, refreshToken, profile, cb) {
+    async (req, accessToken, refreshToken, profile, cb) => {
       console.log("accessToken", accessToken)
       console.log("refreshToken", refreshToken)
-      console.log("profile", profile)
-      User.findOrCreate({ stravaId: profile.id }, function (err, user) {
-        return cb(err, user);
-      });
+
+      try {
+        await User.findOneAndUpdate({ _id: req.user.id },
+          { stravaUser: true },
+          function (err, user) { return cb(err, user) }
+        )
+      } catch (err) {
+        console.error(err)
+      }
     }
   ));
 

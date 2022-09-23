@@ -4,13 +4,14 @@ const User = require("../models/User");
 
 module.exports = {
     connect: async (req, res, next) => {
-        console.log("connecting")
+
         await passport.authorize("strava", { failureRedirect: '/profile' })(req, res, next)
     },
     callback: async (req, res, next) => {
-        console.log("callback")
-        await passport.authorize('strava', { failureRedirect: '/profile' })(req, res, next),
+        //console.log("callback", req)
+        await passport.authorize('strava', { failureRedirect: '/fail' })(req, res, next),
             function (req, res) {
+                console.log("callback", req.account)
                 var user = req.user;
                 var account = req.account;
 
