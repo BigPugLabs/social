@@ -5,7 +5,11 @@ const UserSchema = new mongoose.Schema({
   userName: { type: String, unique: true },
   email: { type: String, unique: true },
   password: String,
-  stravaUser: Boolean
+  stravaUser: Boolean,
+  stravaProfile: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "StravaProfile",
+  }
 });
 
 // Password hash middleware.

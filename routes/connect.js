@@ -5,11 +5,10 @@ const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 //Connect Routes - simplified for now
 
-router.get("/strava", passport.authorize("strava", { failureRedirect: '/fail1' }))
+router.get("/strava", passport.authorize("strava", { failureRedirect: '/profile' }))
 
 router.get("/strava/callback", passport.authorize('strava', { failureRedirect: '/profile' }),
 function (req, res) {
-    console.log("callback", req.account)
     var user = req.user;
     var account = req.account;
 

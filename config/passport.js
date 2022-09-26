@@ -2,6 +2,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const StravaStrategy = require("passport-strava").Strategy;
 const mongoose = require("mongoose");
 const User = require("../models/User");
+const StravaProfile = require("../models/StravaProfile")
 
 module.exports = function (passport) {
   passport.use(
@@ -38,12 +39,32 @@ module.exports = function (passport) {
     passReqToCallback: true
   },
     async (req, accessToken, refreshToken, profile, cb) => {
-      console.log("accessToken", accessToken)
-      console.log("refreshToken", refreshToken)
+      //console.log("accessToken", accessToken)
+      //console.log("refreshToken", refreshToken)
 
+      //console.log(profile)
       try {
+        const filter = {
+          stravaID: profile.id
+        }
+        const update = {
+          displayName: profile.displayName,
+          firstName: profile.name.first,
+          lastName: profile.name.last,
+          avatar: profile.avatar,
+          city: profile._json.city,
+          state: profile._json.state,
+          country: profile._json.country,
+          stravaCreatedAt: profile._json.created_at,
+          stravaUpdatedAt: profile._json.updated_at,
+          accessToken: accessToken,
+          refreshToken: refreshToken
+        }
+        const stravaProfile = await StravaProfile.findOneAndUpdate(filter, update, { new: true, upsert: true })
+        //console.log(stravaProfile)
+        //console.log(stravaProfile.id)
         await User.findOneAndUpdate({ _id: req.user.id },
-          { stravaUser: true },
+          { stravaProfile: stravaProfile.id },
           function (err, user) { return cb(err, user) }
         )
       } catch (err) {
