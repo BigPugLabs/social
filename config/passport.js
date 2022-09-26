@@ -39,10 +39,6 @@ module.exports = function (passport) {
     passReqToCallback: true
   },
     async (req, accessToken, refreshToken, profile, cb) => {
-      //console.log("accessToken", accessToken)
-      //console.log("refreshToken", refreshToken)
-
-      //console.log(profile)
       try {
         const filter = {
           stravaID: profile.id
@@ -61,8 +57,6 @@ module.exports = function (passport) {
           refreshToken: refreshToken
         }
         const stravaProfile = await StravaProfile.findOneAndUpdate(filter, update, { new: true, upsert: true })
-        //console.log(stravaProfile)
-        //console.log(stravaProfile.id)
         await User.findOneAndUpdate({ _id: req.user.id },
           { stravaProfile: stravaProfile.id },
           function (err, user) { return cb(err, user) }

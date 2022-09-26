@@ -6,7 +6,6 @@ const User = require("../models/User")
 module.exports = {
   getProfile: async (req, res) => {
     try {
-      //console.log(req.session)
       const posts = await Post.find({ user: req.user.id });
       console.log(req.user)
       const u = await User.findOne({_id: req.user._id}).populate("stravaProfile")
