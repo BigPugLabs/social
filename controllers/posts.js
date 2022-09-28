@@ -7,7 +7,7 @@ module.exports = {
   getProfile: async (req, res) => {
     try {
       const posts = await Post.find({ user: req.user.id });
-      console.log(req.user)
+      // console.log(req.user)
       const u = await User.findOne({_id: req.user._id}).populate("stravaProfile")
       console.log(u)
       res.render("profile.ejs", { posts: posts, user: req.user });

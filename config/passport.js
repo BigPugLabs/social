@@ -35,11 +35,13 @@ module.exports = function (passport) {
   passport.use(new StravaStrategy({
     clientID: process.env.STRAVA_CLIENT_ID,
     clientSecret: process.env.STRAVA_CLIENT_SECRET,
+    scope: "activity:read",
     callbackURL: "http://192.168.0.11:3003/connect/strava/callback",
     passReqToCallback: true
   },
     async (req, accessToken, refreshToken, profile, cb) => {
       try {
+        // TODO - consider moving some of this stuff into the User or the session at some stage?
         const filter = {
           stravaID: profile.id
         }

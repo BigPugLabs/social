@@ -53,9 +53,11 @@ const ActivitySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  map: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Map",
+  map_id: {
+    type: String,
+  },
+  summary_polyline: {
+    type: String,
   },
   max_speed: {
     type: Number,
@@ -70,8 +72,7 @@ const ActivitySchema = new mongoose.Schema({
     required: true,
   },
   weighted_avg_watts: {
-    type: Number,
-    required: true,
+    type: Number
   },
   kilojoules: {
     type: Number,
@@ -87,7 +88,7 @@ const ActivitySchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Map", MapSchema);
+module.exports = mongoose.model("Activity", ActivitySchema);
 
 
 /* sample data

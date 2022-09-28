@@ -12,6 +12,7 @@ const mainRoutes = require("./routes/main");
 const postRoutes = require("./routes/posts");
 const commentRoutes = require("./routes/comment")
 const connectRoutes = require("./routes/connect");
+const stravaRoutes = require("./routes/strava");
 
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
@@ -60,6 +61,7 @@ app.use("/", mainRoutes);
 app.use("/post", postRoutes);
 app.use("/comment", commentRoutes);
 app.use("/connect", connectRoutes);
+app.use("/strava", stravaRoutes);
 
 //Server Running
 app.listen(process.env.PORT, () => {
