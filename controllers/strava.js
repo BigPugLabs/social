@@ -24,13 +24,14 @@ module.exports = {
                     method: "POST"
                 })
                 const refreshJSON = await refresh.json()
-                // TODO - check this actually works
+                console.log(refreshJSON)
+                // TODO - check if callback is needed, seemed to fail without
                 StravaProfile.updateOne({ _id: athlete.stravaProfile._id },
                     {
                         accessToken: refreshJSON.access_token,
                         refreshToken: refreshJSON.refresh_token,
                         tokenRefreshed: Date.now()
-                    })
+                    }, (err, res)=>{console.log(err, res)})
                 const retry = await fetch("https://www.strava.com/api/v3/athlete/activities?per_page=30",
                     {
                         method: "GET",
