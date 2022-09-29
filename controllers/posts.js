@@ -2,12 +2,16 @@ const cloudinary = require("../middleware/cloudinary");
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
 const User = require("../models/User")
+const Activity = require("../models/Activity")
+const polyline = require("./helpers/polylineToSVG");
 
 module.exports = {
   getProfile: async (req, res) => {
     try {
       const posts = await Post.find({ user: req.user.id });
-      res.render("profile.ejs", { posts: posts, user: req.user });
+      const activities = await Activity.find({ user: req.user.id }).sort({ start_date: "asc" })
+      //console.log(activities)
+      res.render("profile.ejs", { posts: posts, user: req.user, activities: activities });
     } catch (err) {
       console.log(err);
     }
@@ -27,6 +31,19 @@ module.exports = {
       res.render("post.ejs", { post: post, user: req.user, comments: comments });
     } catch (err) {
       console.log(err);
+    }
+  },
+  getActivity: async (req, res) => {
+    try {
+      const activity = await Activity.findById(req.params.id)
+      //console.log(activity)
+      // todo - render this to an svg
+
+      const svg = polyline.toSVG(activity.summary_polyline)
+      //console.log(svg)
+      res.render("activity.ejs", { activity: activity, svg:svg, user: req.user, comments: [] })
+    } catch (err) {
+      console.error(err)
     }
   },
   createPost: async (req, res) => {

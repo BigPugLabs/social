@@ -30,11 +30,11 @@ const ActivitySchema = new mongoose.Schema({
     required: true,
   },
   start_date: {
-    type: String,
+    type: Date,
     required: true,
   },
   start_date_local: {
-    type: String,
+    type: Date,
     required: true,
   },
   timezone: {
