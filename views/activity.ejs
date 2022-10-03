@@ -10,7 +10,8 @@
             <form class="col-1" action="/post/likePost/<%= activity._id %>?_method=PUT" method="POST">
               <button class="btn btn-primary fa fa-heart" type="submit"></button>
             </form>
-            <h3 class="col-3">Likes: <%= activity.distance %></h3>
+            <h3 class="col-3">Likes: <%= new Intl.DateTimeFormat("en-GB" , { timeStyle: "short" , dateStyle: "short"
+            }).format(activity.start_date) %></h3>
             <%if(activity.user==user.id){ %>
               <form action="/post/deletePost/<%= activity._id %>?_method=DELETE" method="POST" class="col-3">
                 <button class="btn btn-primary fa fa-trash" type="submit"></button>
@@ -20,8 +21,7 @@
       </div>
       <div class="col-3 mt-5">
         <p>
-          <%= new Intl.DateTimeFormat("en-GB" , { timeStyle: "short" , dateStyle: "short"
-        }).format(activity.start_date) %>
+          <%= (activity.distance/1000).toFixed(2) + " km" %>
         </p>
       </div>
       <form class="row" action="/comment/createComment/<%= activity._id %>" method="POST">
