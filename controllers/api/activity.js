@@ -5,10 +5,11 @@ const polyline = require("../helpers/polylineToSVG");
 module.exports = {
   getActivity: async (req, res) => {
     try {
+      console.log(req.params.id)
       const activity = await Activity.findById(req.params.id)
-      const svg = polyline.toSVG(activity.summary_polyline)
+      const svg = polyline.toSVGObject(activity.summary_polyline)
       //res.render("activity.ejs", { activity: activity, svg: svg, user: req.user, comments: [] })
-
+      res.json({ activity: activity, svg: svg })
     } catch (err) {
       console.error(err)
     }
@@ -16,8 +17,8 @@ module.exports = {
   getActivityList: async (req, res) => {
     try {
       //const posts = await Post.find({ user: req.user.id });
-      //const activities = await Activity.find({ user: req.user.id }).sort({ start_date: "asc" })
-      const activities = await Activity.find({}).sort({ start_date: "asc" })
+      const activities = await Activity.find({ user: req.user.id }).sort({ start_date: "asc" })
+      //const activities = await Activity.find({}).sort({ start_date: "asc" })
       //console.log(activities)
       //res.render("profile.ejs", { posts: posts, user: req.user, activities: activities });
       res.json(activities)

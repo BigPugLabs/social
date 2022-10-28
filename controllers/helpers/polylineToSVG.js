@@ -29,6 +29,44 @@ module.exports = {
 
         return svg
     },
+    toSVGObject: (polyString) => {
+        let minX = 256, minY = 256, maxX = 0, maxY = 0
+        let coordinates = decode(polyString)
+        const svgPath = []
+
+        for (let i = 0; i < coordinates.length; i++) {
+            const point = latLng2point(...coordinates[i])
+            minX = Math.min(minX, point.x)
+            minY = Math.min(minY, point.y)
+            maxX = Math.max(maxX, point.x)
+            maxY = Math.max(maxY, point.y)
+            svgPath.push([point.x, point.y].join(','))
+        }
+
+        const width = (maxX - minX) * 1.05
+        const height = (maxY - minY) * 1.05
+        const x = minX * 0.999995
+        const y = minY * 0.999995
+        const viewBox = `${x} ${y} ${width} ${height}`
+        const strokeWidth = Math.max(width, height) * 0.005
+
+//         const svg = `<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" height="400" width="400" viewport="0 0 400 400" viewBox="${viewBox}">
+//     <g>
+//     <path d="${`M${svgPath.join(' ')}`}" stroke="#fd7e14" stroke-width="${strokeWidth * 10}" stroke-opacity="25%" stroke-linejoin="round" fill="none" />
+//       <path d="${`M${svgPath.join(' ')}`}" stroke="#0d6efd" stroke-width="${strokeWidth}" fill="none" />
+//     </g>
+//   </svg>`
+
+        return {
+            height: "400",
+            width: "400",
+            viewport: "0 0 400 400",
+            viewBox: viewBox,
+            path: "M" + svgPath.join(' '),
+            pathSettings: [{ stroke: "#fd7e14", strokeWidth: `${strokeWidth * 10}`, strokeOpacity: "25%", strokeLinejoin: "round", fill: "none" },
+                        { stroke: "#0d6efd", strokeWidth: `${strokeWidth}`, strokeOpacity: "25%", strokeLinejoin: "round", fill: "none" }]
+        }
+    },
     multiToSVG: (array) => {
         let minX = 256, minY = 256, maxX = 0, maxY = 0, paths = []
         for (let i = 0; i < array.length; i++) {

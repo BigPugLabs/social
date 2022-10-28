@@ -9,6 +9,6 @@ router.get("/activities/:userID", activityController.getActivities);
 router.get("/activitylist", activityController.getActivityList);
 
 // details of a specific activity
-router.get("/activity/:activityID", activityController.getActivityDetails);
+router.get("/activity/:id", activityController.getActivity);
 
 module.exports = router;

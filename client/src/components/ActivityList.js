@@ -10,7 +10,6 @@ const ActivityList = ({ className }) => {
             try {
                 const res = await fetch("/api/activitylist", { credentials: 'include' })
                 const data = await res.json()
-                //console.log(data)
                 setActivities(data)
             } catch (err) {
                 console.log(err)
@@ -19,15 +18,21 @@ const ActivityList = ({ className }) => {
         fetchActivityList()
     }, [])
 
-    const list = activities.map(el=><li key={el._id}>{el.name}</li>)
+    const list = activities.map(el => {
+        return (
+            <li key={el._id} className="col-6 justify-content-between mt-2">
+                <Link to={"/activity/" + el._id}>
+                    <span>
+                        {el.name}
+                    </span>
+                </Link>
+                <span>{new Date(el.start_date).toLocaleString('en-GB')}</span>
+            </li>
+        )
+    })
 
     return (
         <ul className={className}>
-            <li className="col-6 justify-content-between mt-2">
-                <Link to="/post/activity/6333add60a856cb0e346b221"><span>Hot air for AC ride</span></Link>
-                <span>19/07/2022, 21:20:04</span>
-            </li>
-            <li>{activities.length}</li>
             {list}
         </ul>
     )

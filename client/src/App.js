@@ -22,7 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/activity" element={<Activity />} />
+          <Route path="/activity/:id" element={<Activity />} />
         </Routes>
       </>
     </Router>
