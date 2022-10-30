@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 function Activity() {
@@ -9,7 +9,7 @@ function Activity() {
     const [svg, setSVG] = useState({})
 
     useEffect(() => {
-        async function fetchActivityList() {
+        (async function fetchActivityList() {
             try {
                 const res = await fetch("/api/activity/" + id, { credentials: 'include' })
                 const data = await res.json()
@@ -18,8 +18,7 @@ function Activity() {
             } catch (err) {
                 console.log(err)
             }
-        }
-        fetchActivityList()
+        }())
     }, [id])
 
     return (

@@ -12,7 +12,7 @@ const ActivityList = ({ className }) => {
                 const data = await res.json()
                 setActivities(data)
             } catch (err) {
-                console.log(err)
+                console.error(err)
             }
         }
         fetchActivityList()

@@ -16,12 +16,12 @@ module.exports = {
   },
   getActivityList: async (req, res) => {
     try {
-      //const posts = await Post.find({ user: req.user.id });
-      const activities = await Activity.find({ user: req.user.id }).sort({ start_date: "asc" })
-      //const activities = await Activity.find({}).sort({ start_date: "asc" })
-      //console.log(activities)
-      //res.render("profile.ejs", { posts: posts, user: req.user, activities: activities });
-      res.json(activities)
+      if (req.user) {
+        const activities = await Activity.find({ user: req.user.id }).sort({ start_date: "asc" })
+        res.json(activities)
+      } else {
+        res.json([])
+      }
     } catch (err) {
       console.log(err);
     }
@@ -41,6 +41,6 @@ module.exports = {
     }
   },
   getActivityDetails: async (req, res) => {
-    res.render("foo")
+    res.render("TODO")
   }
 };

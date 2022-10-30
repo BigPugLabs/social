@@ -1,16 +1,21 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
+import { useContext } from 'react'
+import { Link } from 'react-router-dom'
 import ActivityList from '../components/ActivityList'
+import Logout from '../components/Logout'
+import { UserContext } from '../contexts/UserContext'
 
 function Profile() {
+
+const userProfile = useContext(UserContext)
+
     return (
         <div className="container">
             <div className="row mt-5">
                 <div className="col-6">
                     <div>
-                        <p><strong>User Name</strong>: BigPug</p>
-                        <p><strong>Email</strong>: bigpug@example.com</p>
-                        <Link to="/logout" className="col-3 btn btn-primary">Logout</Link>
+                        <p><strong>User Name</strong>: {userProfile.username}</p>
+                        <p><strong>Email</strong>: {userProfile.email}</p>
+                        <Logout />
                         <Link to="/connect/strava" className="col-3 btn btn-primary">Connect Strava</Link>
                         <Link to="/strava/activities/631fc17f244ad60820ae1a6e" className="col-3 btn btn-primary">Refresh activities</Link>
                     </div>
